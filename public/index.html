@@ -1,1 +1,120 @@
-start
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>💅</title>
+    <style>
+        #center-div {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    </style>
+</head>
+<body>
+
+<div id="image-container"></div>
+
+<div id="center-div">
+    0
+    <input type="range" id="speed" max="100" min="0" value="2">
+    100
+    <button id="submit-speed">Submit Speed</button>
+    <br>
+    <input type="text" id="redirect" placeholder="Enter secret phrase...">
+    <button id="submit-redirect">Submit Phrase</button>
+</div>
+
+<script>
+    var images = ['uc1.gif', 'uc2.gif', 'uc3.gif']; // replace these with your actual image filenames
+
+    var speed = 2; // adjust this to change the speed of the movement
+
+    let loadedImages = [];
+
+    images.forEach(image => {
+        let img = new Image();
+        img.src = './temp/' + image;
+
+        img.onload = () => {
+            let randomX = Math.random() * (window.innerWidth - img.width);
+            let randomY = Math.random() * (window.innerHeight - img.height);
+
+            // Ensure the image is not placed in the center of the screen
+            let centerX = window.innerWidth / 2;
+            let centerY = window.innerHeight / 2;
+            let buffer = 100; // Adjust this to increase/decrease the center exclusion area
+
+            if (Math.abs(randomX - centerX) <= buffer && Math.abs(randomY - centerY) <= buffer) {
+                randomX = randomX < centerX ? randomX - buffer : randomX + buffer;
+                randomY = randomY < centerY ? randomY - buffer : randomY + buffer;
+            }
+
+            img.style.position = 'absolute';
+            img.style.left = randomX + 'px';
+            img.style.top = randomY + 'px';
+
+            loadedImages.push({
+                image: img,
+                x: randomX,
+                y: randomY,
+                rotation: 0,
+                dx: (Math.random() - 0.5) * speed,
+                dy: (Math.random() - 0.5) * speed,
+                drotation: (Math.random() - 0.5) * speed,
+            });
+
+            document.getElementById('image-container').appendChild(img);
+        };
+    });
+
+    function animate() {
+        loadedImages.forEach(imgObj => {
+            imgObj.x += imgObj.dx;
+            imgObj.y += imgObj.dy;
+            imgObj.rotation += imgObj.drotation;
+            if (imgObj.rotation > 360) {
+                imgObj.rotation -= 360;
+            }
+
+            // reverse direction when hitting the edge
+            if (imgObj.x < 0 || imgObj.x > window.innerWidth - imgObj.image.width) {
+                imgObj.dx *= -1;
+            }
+            if (imgObj.y < 0 || imgObj.y > window.innerHeight - imgObj.image.height) {
+                imgObj.dy *= -1;
+            }
+
+            imgObj.image.style.left = imgObj.x + 'px';
+            imgObj.image.style.top = imgObj.y + 'px';
+            imgObj.image.style.transform = 'rotate(' + imgObj.rotation + 'deg)';
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    // Handle speed input
+    document.getElementById('submit-speed').addEventListener('click', function () {
+        let speedInput = document.getElementById('speed');
+        speed = parseFloat(speedInput.value);
+        loadedImages.forEach(imgObj => {
+            imgObj.dx = (Math.random() - 0.5) * speed;
+            imgObj.dy = (Math.random() - 0.5) * speed;
+            imgObj.drotation = (Math.random() - 0.5) * speed;
+        });
+    });
+
+    // Handle redirect input
+    document.getElementById('submit-redirect').addEventListener('click', function () {
+        let redirectInput = document.getElementById('redirect');
+        if (redirectInput.value.toLowerCase() === 'nya') { // congrats, enjoy an unfinished site >w<
+            window.location.href = 'main.html';
+        }
+    });
+
+    animate();
+</script>
+
+</body>
+</html>
