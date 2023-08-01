@@ -9,7 +9,7 @@
     border: solid 0.5vw rgba(184, 184, 184, 1); /* thinner border */
     justify-content: center;
     align-items: center;
-    display: block;
+    display: none;
 }
 
 .crossCenter {
