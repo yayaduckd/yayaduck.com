@@ -1,44 +1,43 @@
 .controller {
-    width: 150px;
-    height: 150px;
+    width: 15vw; /* smaller size */
+    height: 15vw; /* smaller size */
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    bottom: 1vw; /* smaller margin */
+    left: 1vw; /* smaller margin */
     background-color: #ccc;
     border-radius: 100%;
-    border: solid 5px rgba(184, 184, 184, 1);
+    border: solid 0.5vw rgba(184, 184, 184, 1); /* thinner border */
     justify-content: center;
     align-items: center;
     display: block;
 }
 
-
 .crossCenter {
     background-color: #333333;
-    width: 35px;
-    height: 35px;
+    width: 4.5vw; /* smaller size */
+    height: 4.5vw; /* smaller size */
     position: absolute;
     align-items: center;
     justify-content: center;
-    left: 50%; /* Centered horizontally */
-    top: 50%; /* Centered vertically */
-    transform: translate(-50%, -50%); /* Offsetting by half its width and height */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .crossCircle {
     background-color: #292929;
-    width: 25px;
-    height: 25px;
+    width: 3vw; /* smaller size */
+    height: 3vw; /* smaller size */
     position: absolute;
     border-radius: 100%;
-    margin-top: 5px;
-    margin-left: 5px;
+    margin-top: 0.5vw; /* smaller margin */
+    margin-left: 0.5vw; /* smaller margin */
 }
 
 .crossTop, .crossBottom, .crossLeft, .crossRight {
     background-color: #333333;
-    width: 35px;
-    height: 35px;
+    width: 4.5vw; /* smaller size */
+    height: 4.5vw; /* smaller size */
     position: absolute;
     border-radius: 15%;
     opacity: 1;
@@ -66,4 +65,13 @@
     right: -100%;
     top: 50%;
     transform: translateY(-50%);
+}
+
+/* Adjustments for small devices */
+@media (max-width: 480px) {
+    .controller {
+        width: 20vw; /* slightly larger for small screens */
+        height: 20vw; /* slightly larger for small screens */
+    }
+    /* adjust other elements as needed */
 }

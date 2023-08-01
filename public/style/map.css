@@ -1,5 +1,4 @@
 #map {
-    /* display: flex; */
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -11,19 +10,31 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 20px;
+    height: 3vh;
 }
 
 .col {
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 20px;
+    width: 3vh;
+    height: 3vh;
 }
 
 .col.duck {
     background-image: url('../svg/duck.svg');
     background-size: contain;
     background-repeat: no-repeat;
-    background-position: center; /* to center the image within the cell */
+    background-position: center;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .col {
+        width: 10vw;
+        height: 10vw; /* Scale proportionally */
+    }
+    .col.duck {
+        background-size: cover; /* Fill the cell */
+    }
 }
