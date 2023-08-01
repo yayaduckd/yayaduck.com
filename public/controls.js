@@ -5,14 +5,11 @@ const MOVE_UP = ['ARROWUP', 'W'];
 const MOVE_DOWN = ['ARROWDOWN', 'S'];
 const MOVE_LEFT = ['ARROWLEFT', 'A'];
 const MOVE_RIGHT = ['ARROWRIGHT', 'D'];
-const RESET_POSITION = ['R'];
 
 // Event listener for keydown events
 document.addEventListener('keydown', function (event) {
     event.preventDefault();
     const key = event.key.toUpperCase();
-    const { width, height } = mapData;
-
 
     // Check which movement key was pressed
     if (MOVE_UP.includes(key)) {

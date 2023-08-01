@@ -9,7 +9,7 @@ export var entities = {
     duck: {
         x: 26,
         y: 4,
-        icon: "🦆",
+        icon: " ",
         class: "duck"
     },
     // Add more entities if needed
@@ -89,6 +89,3 @@ initMapData()
   .catch(console.error);
 
 export { mapData };
-
-// Run
-// mapData.then(drawMap).catch(console.error);

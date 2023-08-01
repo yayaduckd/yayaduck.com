@@ -20,3 +20,10 @@
     align-items: center;
     width: 20px;
 }
+
+.col.duck {
+    background-image: url('../svg/duck.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center; /* to center the image within the cell */
+}
