@@ -1,81 +1,94 @@
 // Constants
 const MAP_VISUAL_FILE_DEFAULT = "./map/visual.txt";
 
-var duck = {
-    "x": undefined,
-    "y": undefined,
-    "present": false,
-}
+// Exporting the map data object
+// export const mapData = initMapData();
+let mapData;
 
-function createMapObject(mapString) {
-    let rows = mapString.split("\n");
-    let mapObj = {
-        "width": rows[0].length,
-        "height": rows.length,
-        "map": rows,
-    }
-    return mapObj;
-}
-
-function drawMap(mapObj) { 
-    let map = document.getElementById("map");
-    map.innerHTML = "";
-    for (let row = 0; row < mapObj.height; row++) {
-        let rowDiv = document.createElement("div");
-        rowDiv.classList.add("row");
-        for (let col = 0; col < mapObj.width; col++) {
-            let colSpan = document.createElement("span");
-            colSpan.classList.add("col");
-            colSpan.classList.add("col-" + col);
-            colSpan.classList.add("row-" + row);
-            let nextChar = mapObj.map[row][col];
-            switch (nextChar) {
-                case " ":
-                    colSpan.classList.add("empty");
-                    nextChar = "&nbsp;";
-                    break;
-                case undefined:
-                    colSpan.classList.add("empty");
-                    nextChar = "&nbsp;";
-                    break;
-                case "🦆":
-                    if (duck.present) {
-                        throw new Error("There are multiple ducks on the map!");
-                    }
-                    colSpan.classList.add("duck");
-                    duck.x = col;
-                    duck.y = row;
-                    duck.present = true;
-                    break;
-            }
-            colSpan.innerHTML = nextChar;
-            rowDiv.appendChild(colSpan);
-        }
-        map.appendChild(rowDiv);
-    }
-}
+export var entities = {
+    duck: {
+        x: 30,
+        y: 4,
+        icon: "🦆",
+        class: "duck"
+    },
+    // Add more entities if needed
+};
 
 async function fetchFileContent(filename) {
+    const response = await fetch(filename);
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.text();
+}
+
+async function initMapData() {
     try {
-        const response = await fetch(filename);
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return await response.text();
+        const mapString = await fetchFileContent(MAP_VISUAL_FILE_DEFAULT);
+        const rows = mapString.split("\n");
+        const width = rows[0].length;
+        const height = rows.length;
+        return { width, height, map: rows };
     } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error(error);
     }
 }
 
-async function initMap() {
-    try {
-      let mapString = await fetchFileContent(MAP_VISUAL_FILE_DEFAULT);
-      var mapObj = createMapObject(mapString);
-      drawMap(mapObj);
-    } catch (error) {
-      console.error('There was a problem initializing the map:', error);
+export function drawMap(mapData) {
+    const { width, height, map } = mapData;
+    const mapElement = document.getElementById("map");
+    mapElement.innerHTML = "";
+
+    for (let row = 0; row < height; row++) {
+        drawRow(row, map, mapElement, width);
     }
-  }
+}
+
+function drawRow(row, map, mapElement, width) {
+    const rowDiv = document.createElement("div");
+    rowDiv.classList.add("row");
+    for (let col = 0; col < width; col++) {
+        drawCell(row, col, map, rowDiv);
+    }
+    mapElement.appendChild(rowDiv);
+}
+
+function drawCell(row, col, map, rowDiv) {
+    const colSpan = document.createElement("span");
+    colSpan.classList.add("col");
+    colSpan.classList.add("col-" + col);
+    colSpan.classList.add("row-" + row);
+
+    let nextChar = map[row][col];
+    nextChar = handleEntities(col, row, nextChar, colSpan);
+
+    if (nextChar === " " || nextChar === undefined) {
+        colSpan.classList.add("empty");
+        nextChar = "&nbsp;";
+    }
+
+    colSpan.innerHTML = nextChar;
+    rowDiv.appendChild(colSpan);
+}
+
+function handleEntities(col, row, char, element) {
+    for (const key in entities) {
+        const entity = entities[key];
+        if (entity.x === col && entity.y === row) {
+            element.classList.add(entity.class);
+            return entity.icon;
+        }
+    }
+    return char;
+}
+
+initMapData()
+  .then((data) => {
+    mapData = data;
+    drawMap(data);
+  })
+  .catch(console.error);
+
+export { mapData };
 
 // Run
-initMap();
+// mapData.then(drawMap).catch(console.error);
