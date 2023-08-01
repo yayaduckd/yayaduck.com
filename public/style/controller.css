@@ -1,0 +1,69 @@
+.controller {
+    width: 150px;
+    height: 150px;
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: #ccc;
+    border-radius: 100%;
+    border: solid 5px rgba(184, 184, 184, 1);
+    justify-content: center;
+    align-items: center;
+    display: block;
+}
+
+
+.crossCenter {
+    background-color: #333333;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    left: 50%; /* Centered horizontally */
+    top: 50%; /* Centered vertically */
+    transform: translate(-50%, -50%); /* Offsetting by half its width and height */
+}
+
+.crossCircle {
+    background-color: #292929;
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    border-radius: 100%;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+.crossTop, .crossBottom, .crossLeft, .crossRight {
+    background-color: #333333;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    border-radius: 15%;
+    opacity: 1;
+}
+
+.crossTop {
+    top: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.crossBottom {
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.crossLeft {
+    left: -100%;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.crossRight {
+    right: -100%;
+    top: 50%;
+    transform: translateY(-50%);
+}

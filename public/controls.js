@@ -5,36 +5,66 @@ const MOVE_UP = ['ARROWUP', 'W'];
 const MOVE_DOWN = ['ARROWDOWN', 'S'];
 const MOVE_LEFT = ['ARROWLEFT', 'A'];
 const MOVE_RIGHT = ['ARROWRIGHT', 'D'];
+const RESET_POSITION = ['R'];
 
 // Event listener for keydown events
 document.addEventListener('keydown', function (event) {
     event.preventDefault();
     const key = event.key.toUpperCase();
-    console.log(key);
     const { width, height } = mapData;
 
 
     // Check which movement key was pressed
     if (MOVE_UP.includes(key)) {
-        moveEntity(entities.duck, 0, -1, width, height);
+        up();
     } else if (MOVE_DOWN.includes(key)) {
-        moveEntity(entities.duck, 0, 1, width, height);
+        down();
     } else if (MOVE_LEFT.includes(key)) {
-        moveEntity(entities.duck, -1, 0, width, height);
+        left();
     } else if (MOVE_RIGHT.includes(key)) {
-        moveEntity(entities.duck, 1, 0, width, height);
+        right();
     }
 
     // Redraw the map with the updated entity position
     drawMap(mapData);
 });
 
+function up() {
+    moveEntity(entities.duck, 0, -1);
+    drawMap(mapData);
+}
 
+function down() {
+    moveEntity(entities.duck, 0, 1);
+    drawMap(mapData);
+}
+
+function left() {
+    moveEntity(entities.duck, -1, 0);
+    drawMap(mapData);
+}
+
+function right() {
+    moveEntity(entities.duck, 1, 0);
+    drawMap(mapData);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const crossTop = document.querySelector('.crossTop');
+    const crossBottom = document.querySelector('.crossBottom');
+    const crossLeft = document.querySelector('.crossLeft');
+    const crossRight = document.querySelector('.crossRight');
+
+    crossTop.addEventListener('mousedown', up);
+    crossBottom.addEventListener('mousedown', down);
+    crossLeft.addEventListener('mousedown', left);
+    crossRight.addEventListener('mousedown', right);
+  });
 
 /**
  * Move an entity by the given deltas, while respecting map boundaries
  */
-function moveEntity(entity, deltaX, deltaY, width, height) {
+function moveEntity(entity, deltaX, deltaY) {
     const newX = entity.x + deltaX;
     const newY = entity.y + deltaY;
 

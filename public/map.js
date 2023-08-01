@@ -7,7 +7,7 @@ let mapData;
 
 export var entities = {
     duck: {
-        x: 30,
+        x: 26,
         y: 4,
         icon: "🦆",
         class: "duck"
